@@ -1,0 +1,22 @@
+package:
+  deploy:
+    set:
+      DOMAIN: bigbang.dev
+      ATLANTIS_SUBDOMAIN: atlantis
+      ATLANTIS_REPO_ALLOWLIST: "*"
+      ATLANTIS_GITLAB_HOSTNAME: gitlab.bigbang.dev
+      ATLANTIS_GITLAB_USER: theuser
+      ATLANTIS_GITLAB_TOKEN: thetoken
+      ATLANTIS_GITLAB_WEBHOOK_SECRET: thesecret
+      ATLANTIS_LOG_LEVEL: debug
+      ATLANTIS_AWS_CONFIG: |
+        credentials: |
+          [default]
+          aws_access_key_id=YOUR_ACCESS_KEY_ID
+          aws_secret_access_key=YOUR_SECRET_ACCESS_KEY
+          region=us-east-1
+        config: |
+          [profile a_role_to_assume]
+          role_arn = arn:aws:iam::123456789:role/service-role/roleToAssume
+          source_profile = default
+        directory: "/home/atlantis/.aws"

@@ -1,0 +1,70 @@
+kind: ZarfPackageConfig
+metadata:
+  description: Zarf packager to deploy Atlantis, which does Terraform automation. Currently only supports GitLab.
+  name: atlantis
+  source: https://github.com/RothAndrew/zarf-package-atlantis
+  version: 0.0.1
+  url: https://github.com/RothAndrew/zarf-package-atlantis
+  architecture: amd64
+  documentation: https://github.com/RothAndrew/zarf-package-atlantis
+  vendor: Defense Unicorns
+
+variables:
+  - name: DOMAIN
+    description: The domain that Atlantis will be deployed to. For example, if DOMAIN is 'bigbang.dev' and ATLANTIS_SUBDOMAIN is 'atlantis' then Atlantis will be served at 'https://atlantis.bigbang.dev'
+    prompt: true
+  - name: ATLANTIS_SUBDOMAIN
+    description: The subdomain that Atlantis will be deployed to. For example, if DOMAIN is 'bigbang.dev' and ATLANTIS_SUBDOMAIN is 'atlantis' then Atlantis will be served at 'https://atlantis.bigbang.dev'
+    prompt: true
+  - name: ATLANTIS_REPO_ALLOWLIST
+    description: List of repositories that atlantis will accept webhooks from. See https://www.runatlantis.io/docs/security.html#repo-allowlist.
+    prompt: true
+  - name: ATLANTIS_GITLAB_HOSTNAME
+    description: The hostname of the GitLab that Atlantis will interact with. Example - gitlab.example.com
+    prompt: true
+  - name: ATLANTIS_GITLAB_USER
+    description: GitLab username that Atlantis will use to interact with GitLab
+    prompt: true
+  - name: ATLANTIS_GITLAB_TOKEN
+    description: GitLab Personal Access Token that Atlantis will use to interact with GitLab. Needs "repo" scope.
+    sensitive: true
+    prompt: true
+  - name: ATLANTIS_GITLAB_WEBHOOK_SECRET
+    description: The secret token that was used to create the webhook(s) in GitLab.
+    sensitive: true
+    prompt: true
+  - name: ATLANTIS_LOG_LEVEL
+    description: The log level for Atlantis Server. Options are "debug", "error", "info", or "warn"
+    default: debug
+    prompt: false
+  # Example value for this variable:
+  # ATLANTIS_AWS_CONFIG: |
+  #   credentials: |
+  #     [default]
+  #     aws_access_key_id=YOUR_ACCESS_KEY_ID
+  #     aws_secret_access_key=YOUR_SECRET_ACCESS_KEY
+  #     region=us-east-1
+  #   config: |
+  #     [profile a_role_to_assume]
+  #     role_arn = arn:aws:iam::123456789:role/service-role/roleToAssume
+  #     source_profile = default
+  #   directory: "/home/atlantis/.aws"
+  - name: ATLANTIS_AWS_CONFIG
+    description: The configuration needed for Atlantis to interact with AWS. The format should be YAML.
+    prompt: false
+    autoIndent: true
+    sensitive: true
+    default: "{}"
+
+components:
+  - name: atlantis
+    required: true
+    description: Atlantis helm chart
+    charts:
+      - url: https://runatlantis.github.io/helm-charts
+        version: 4.19.0
+        name: atlantis
+        namespace: atlantis
+        noWait: false
+        valuesFiles:
+          - values.yaml

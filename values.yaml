@@ -1,0 +1,14 @@
+atlantisUrl: "https://###ZARF_VAR_ATLANTIS_SUBDOMAIN###.###ZARF_VAR_DOMAIN###"
+orgAllowlist: "###ZARF_VAR_ATLANTIS_REPO_ALLOWLIST###"
+# noinspection YAMLSchemaValidation
+logLevel: "###ZARF_VAR_ATLANTIS_LOG_LEVEL###"
+gitlab:
+  hostname: "###ZARF_VAR_ATLANTIS_GITLAB_HOSTNAME###"
+  user: "###ZARF_VAR_ATLANTIS_GITLAB_USER###"
+  token: "###ZARF_VAR_ATLANTIS_GITLAB_TOKEN###"
+  secret: "###ZARF_VAR_ATLANTIS_GITLAB_WEBHOOK_SECRET###"
+gitconfig: |
+  [url "https://oauth2:###ZARF_VAR_ATLANTIS_GITLAB_TOKEN###"@###ZARF_VAR_ATLANTIS_SUBDOMAIN###.###ZARF_VAR_DOMAIN###]
+    insteadOf = https://###ZARF_VAR_ATLANTIS_SUBDOMAIN###.###ZARF_VAR_DOMAIN###
+aws:
+  ###ZARF_VAR_ATLANTIS_AWS_CONFIG###
